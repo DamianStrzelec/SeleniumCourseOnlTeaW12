@@ -10,7 +10,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.nio.file.Files;
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class NewOrderSteps {
     private WebDriver driver;
@@ -106,8 +109,10 @@ public class NewOrderSteps {
     }
 
     @Then("Confirmed a new order by a screenshot with the order confirmation and the amount")
-    public void checkConfirmationANewOrder() {
+    public void checkConfirmationANewOrder() throws IOException {
         TakesScreenshot screenshot = (TakesScreenshot)driver;
         File tmpScreenshot = screenshot.getScreenshotAs(OutputType.FILE);
+        String currentDateTime = LocalDateTime.now().toString().replaceAll(":", "_");
+        Files.copy(tmpScreenshot.toPath(), Paths.get("C:", "test-evidence", "order-success-"+currentDateTime+".png"));
     }
 }
